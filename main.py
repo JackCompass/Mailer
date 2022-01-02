@@ -6,7 +6,7 @@ app = FastAPI()
 
 # Just a comment
 @app.get("/")
-async def root():
+def root():
     mymail = Email()
     return {"message": "Hello World"}
 
