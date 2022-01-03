@@ -1,6 +1,5 @@
 from fastapi import FastAPI, Request, Response
 from starlette.responses import RedirectResponse
-from __future__ import print_function
 from os import path
 from google.auth.transport.requests import Request
 from google.oauth2.credentials import Credentials
