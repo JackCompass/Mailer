@@ -42,7 +42,6 @@ def verify_account():
         else:
             flow = google_auth_oauthlib.flow.Flow.from_client_secrets_file(
                 'credentials.json', SCOPES)
-            creds = flow.run_local_server(port=0)
             flow.redirect_uri = 'https://mailcleaner.herokuapp.com/authenticated/'
             authorization_url, state = flow.authorization_url(access_type='offline', include_granted_scopes='true')
             return RedirectResponse(authorization_url)
