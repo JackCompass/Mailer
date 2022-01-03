@@ -49,6 +49,6 @@ def verify_account():
         return {'message': 'failure again'}
 
 
-@app.get('/authencticated/')
+@app.get('/authenticated/')
 def authenticate():
     return {'message': 'You got authenticated'}
