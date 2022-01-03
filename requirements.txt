@@ -1,4 +1,4 @@
-fastapi
+fastapi~=0.70.1
 uvicorn
 gunicorn
 uvloop
@@ -6,3 +6,6 @@ httptools
 google-api-python-client
 google-auth-httplib2
 google-auth-oauthlib
+bs4~=0.0.1
+beautifulsoup4~=4.10.0
+starlette

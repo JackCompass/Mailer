@@ -2,7 +2,8 @@ from __future__ import print_function
 from os import path
 from google.auth.transport.requests import Request
 from google.oauth2.credentials import Credentials
-from google_auth_oauthlib.flow import InstalledAppFlow
+import google_auth_oauthlib.flow
+from starlette.responses import RedirectResponse
 
 
 class Email:
@@ -21,13 +22,17 @@ class Email:
             if self.creds and self.creds.expired and self.creds.refresh_token:
                 self.creds.refresh(Request())
             else:
-                flow = InstalledAppFlow.from_client_secrets_file(
+                flow = google_auth_oauthlib.flow.Flow.from_client_secrets_file(
                     'credentials.json', self.scope
                 )
-                self.creds = flow.run_local_server(port=0)
+                flow.redirect_uri = 'https://mailcleaner.herokuapp.com/authenticated/'
+                authorization_url, state = flow.authorization_url(
+                    access_type='offline',
+                    include_granted_scopes='true')
+                return RedirectResponse(authorization_url)
 
-            with open('token.json', 'w') as token:
-                token.write(self.creds.to_json())
+            # with open('token.json', 'w') as token:
+            #     token.write(self.creds.to_json())
 
     def fetch_email(self):
         # TODO: write a function which is going to fetch a number of emails
