@@ -9,6 +9,7 @@ class Email:
     def __init__(self):
         self.scope = 'https://mail.google.com/'
         self.creds = None
+        self.setup()
 
     def setup(self):
         """This function is going to do the basic setup for the email object"""
@@ -21,7 +22,7 @@ class Email:
                 self.creds.refresh(Request())
             else:
                 flow = InstalledAppFlow.from_client_secrets_file(
-                    'credentials.json', self.scope
+                    'xcredentials.json', self.scope
                 )
                 self.creds = flow.run_local_server(port=0)
 

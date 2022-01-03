@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from handler import Email
+from mailhandler import Email
 
 app = FastAPI()
 
