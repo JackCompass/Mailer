@@ -119,12 +119,12 @@ async def verify_account(session_data: SessionData = Depends(verifier), session_
 
 
 @app.get('/authenticated/', dependencies=[Depends(cookie)])
-def authenticate(session_data: SessionData = Depends(verifier)):
+def authenticate(request: fastapi.Request, session_data: SessionData = Depends(verifier)):
     state = session_data.state
     flow = google_auth_oauthlib.flow.Flow.from_client_secrets_file(
         'credentials.json', SCOPES, state=state)
     flow.redirect_uri = 'https://mailcleaner.herokuapp.com/authenticated/'
-    authorization_response = str(fastapi.Request.url)
+    authorization_response = str(request.url)
     flow.fetch_token(authorization_response=authorization_response)
     try:
         with open('token.json', 'w') as token:
