@@ -93,7 +93,7 @@ async def say_hello(session_data: SessionData = Depends(verifier)):
 
 
 @app.get('/verify', dependencies=[Depends(cookie)])
-def verify_account(session_data: SessionData = Depends(verifier)):
+async def verify_account(session_data: SessionData = Depends(verifier), session_id: UUID = Depends(cookie)):
     """Shows basic usage of the Gmail API.
         Lists the user's Gmail labels.
         """
@@ -112,8 +112,7 @@ def verify_account(session_data: SessionData = Depends(verifier)):
                 'credentials.json', SCOPES)
             flow.redirect_uri = 'https://mailcleaner.herokuapp.com/authenticated/'
             authorization_url, state = flow.authorization_url(access_type='offline', include_granted_scopes='true')
-            print(type(state))
-            session_data.state = state
+            await backend.update(session_id, SessionData(state=state))
             return RedirectResponse(authorization_url)
     else:
         return {'message': 'failure again'}
