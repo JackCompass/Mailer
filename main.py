@@ -4,6 +4,7 @@ from os import path
 from google.auth.transport.requests import Request
 from google.oauth2.credentials import Credentials
 import google_auth_oauthlib.flow
+import json
 import os
 
 app = FastAPI()
@@ -50,4 +51,13 @@ def verify_account():
 
 @app.get('/authenticated/')
 def authenticate():
-    return {'message': 'You got authenticated'}
+    flow = google_auth_oauthlib.flow.Flow.from_client_secrets_file(
+        'credentials.json', SCOPES)
+    message = ''
+    try:
+        with open('token.json', 'w') as token:
+            token.write(flow.credentials.to_json())
+        message = 'successful'
+    except:
+        message = 'unsuccessful'
+    return {'message': f'{message}'}
